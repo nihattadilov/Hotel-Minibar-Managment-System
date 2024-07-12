@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Rooms</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 2.5em;
+            color: #1e2a38;
+            font-weight: 700;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 700px;
+        }
+        form label {
+            font-size: 1em;
+            color: #555;
+            margin-right: 10px;
+        }
+        form .form-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        form .form-group input[type="date"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex: 1;
+            box-sizing: border-box;
+        }
+        form .form-group input[type="date"]:nth-of-type(2) {
+            margin-left: 10px;
+        }
+        form button {
+            padding: 12px 18px;
+            background-color: #1e2a38;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        form button:hover {
+            background-color: #3a4b6c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #1e2a38;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            text-decoration: none;
+            color: #1e2a38;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #003d63;
+        }
+    </style>
+</head>
+<body>
+    <h2>Hotel Rooms</h2>
+
+    <form method="get" action="{% url 'download_sales_report' %}">
+        <div class="form-group">
+            <div>
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" required>
+            </div>
+            <div>
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" required>
+            </div>
+        </div>
+        <button type="submit">Generate Report</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.number }}</td>
+                <td><a href="{% url 'room_sales' room.id %}">View Minibar Sales</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No rooms available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
